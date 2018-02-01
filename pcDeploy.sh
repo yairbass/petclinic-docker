@@ -29,8 +29,8 @@ if [ "$1" == "clean" ]
       mkdir dbdata
       docker pull mysql
       # runnning a mysql container to push all the data in the volume
-          docker run -d  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=root -p 3306:3306 -v "$(pwd)"/dbdata:/var/lib/mysql -v "$(pwd)"/src/main/resources/db/mysql:/docker-entrypoint-initdb.d --name mysql mysql
-        sleep 10
+          docker run -itd  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=root -p 3306:3306 -v "$(pwd)"/dbdata:/var/lib/mysql -v "$(pwd)"/src/main/resources/db/mysql:/docker-entrypoint-initdb.d --name mysql mysql
+        sleep 15
         echo " mysql was populated Succesfully "
     docker stop mysql
      mvn package -Dmaven.test.skip=true
