@@ -51,8 +51,11 @@ pipeline {
 
         stage ('Exec Maven') {
             steps {
+                environment{
+                    MAVEN_HOME=/usr/share/maven
+                }
                 rtMavenRun (
-                    tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
+                    //tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'package -Dmaven.test.skip=true ',
                     deployerId: "MAVEN_DEPLOYER",
@@ -111,7 +114,7 @@ pipeline {
                     targetRepo: 'maven-release-local',
                     comment: 'this is build had passed all tests is been promoted',
                     status: 'Released',
-                    sourceRepo: 'maven-dev-local-repo',
+                    sourceRepo: 'maven-dev-local',
                     includeDependencies: false,
                     failFast: true,
                     copy: true
