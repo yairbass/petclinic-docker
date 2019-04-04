@@ -56,7 +56,7 @@ pipeline {
             steps {
 
                 rtMavenRun (
-                    //tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
+                    tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'package -Dmaven.test.skip=true ',
                     deployerId: "MAVEN_DEPLOYER",
