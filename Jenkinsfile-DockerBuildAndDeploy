@@ -2,18 +2,18 @@ pipeline {
   agent{
     kubernetes {
       cloud 'k8s'
-      label 'jenkins-maven-pipeline'
-      defaultContainer 'jnlp' 
+      label 'jenkins-docker-pipeline'
+      defaultContainer 'docker'
         yaml """
             apiVersion: v1
             kind: Pod
             metadata:
               labels:
-                name: jenkins-maven-pipeline
+                name: jenkins-docker-pipeline
             spec:
               containers:
-              - name: maven
-                image: maven:3.6.0-jdk-11
+              - name: docker
+                image: docker
                 command:
                 - cat
                 tty: true
@@ -26,9 +26,6 @@ pipeline {
                 git branch: 'pipeline', url: "https://github.com/yairbass/petclinic-docker.git", credentialsId: 'github'
             }
         }
-        
-        
-      
         stage ('Artifactory configuration') {
             steps {
                 rtMavenDeployer (
@@ -48,11 +45,10 @@ pipeline {
                 )
             }
         }
-
         stage ('Exec Maven') {
             steps {
                 rtMavenRun (
-                    //tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
+                    tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
                     goals: 'package -Dmaven.test.skip=true ',
                     deployerId: "MAVEN_DEPLOYER",
@@ -70,7 +66,6 @@ pipeline {
                 }
                 }
             }
-        
         stage("Quality Gate") {
             steps {
                 // Fix for SonarQube issue for Pending Quality gates
@@ -87,8 +82,7 @@ pipeline {
                 )
             }
         }
-        
-            stage ('Scan Build with xray') {
+        stage ('Scan Build with xray') {
                 steps {
                     script {
                         server = Artifactory.server "artifactory"
@@ -102,7 +96,7 @@ pipeline {
                     }
                 }
               }
-            stage ('Promote to release'){
+        stage ('Promote to release'){
                 steps {
                     rtPromote (
                     buildName: env.JOB_NAME,
@@ -120,3 +114,16 @@ pipeline {
      }
     }
 }
+
+
+
+'''
+Step 1 : Clone Repo 
+Step 2 : Download Artifact from previous build
+Step 3 : Build DockerImage using Privous build and Dockerfile
+step 4 : Upload image
+Step 5 : Run Xray on Container
+Steo 6 : Create RB with helmChart of ]
+Step 7 : Distribute RB to Edge node
+Step 8: Deploy helm Chart with peclinic, mysql and traefik 
+'''

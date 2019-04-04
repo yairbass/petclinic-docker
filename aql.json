@@ -1,0 +1,10 @@
+items.find(
+{
+  "name"{"$match":"spring-petclinic*.jar"}
+  "$and":[
+    {"artifact.module.build.name":{"$eq":"PetClinic Build and promote"}}
+    {"artifact.module.build.number":{"$eq":"$latest"}}
+]
+  "@build.name":{"$eq":""}
+}
+)
