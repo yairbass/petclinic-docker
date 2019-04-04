@@ -50,10 +50,11 @@ pipeline {
         }
 
         stage ('Exec Maven') {
+            environment{
+                MAVEN_HOME = '/usr/share/maven'
+            }
             steps {
-                environment{
-                    MAVEN_HOME=/usr/share/maven
-                }
+
                 rtMavenRun (
                     //tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
@@ -68,9 +69,9 @@ pipeline {
                 scannerHome = tool 'SonarQubeScanner'
             }
             steps {
-        withSonarQubeEnv('SonarServer') {
-            sh "${scannerHome}/bin/sonar-scanner"
-                }
+                withSonarQubeEnv('SonarServer') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                        }
                 }
             }
         
