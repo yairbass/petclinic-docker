@@ -1,3 +1,7 @@
+{
+ "files": [
+  {
+    "aql": {
 items.find({
   "name": {
     "$match": "spring-petclinic*.jar"
@@ -19,6 +23,7 @@ items.find({
     "created"
   ]
 }).limit(1)
-
+}
+}
 
 
