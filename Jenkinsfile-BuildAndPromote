@@ -118,5 +118,14 @@ pipeline {
                 )
        }
      }
+      Stage ('Sleep'){
+        steps {
+          script {
+              sh 'ls'
+              sh 'sleep 600'
+          }
+        }
+      }
     }
+    
 }
