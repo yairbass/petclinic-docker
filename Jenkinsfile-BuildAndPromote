@@ -118,7 +118,7 @@ pipeline {
                 )
        }
      }
-      Stage ('Sleep'){
+      stage ('Sleep'){
         steps {
           script {
               sh 'ls'
