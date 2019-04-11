@@ -52,11 +52,7 @@ pipeline {
         }
 
         stage ('Exec Maven') {
-            environment{
-                MAVEN_HOME = '/usr/share/maven'
-            }
             steps {
-
                 rtMavenRun (
                     tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
@@ -155,5 +151,14 @@ pipeline {
                 )
        }
      }
+      stage ('Sleep'){
+        steps {
+          script {
+              sh 'ls'
+              sh 'sleep 600'
+          }
+        }
+      }
     }
+    
 }
