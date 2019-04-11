@@ -78,12 +78,13 @@ pipeline {
                     }"""
             )
         }
-        stage ('Upload src data'){
-            rtUpload (
-                    serverId: "artifactory",
-                    flat: false,
-                    spec:
-                            """{
+        stage ('Upload src data') {
+            steps {
+                rtUpload(
+                        serverId: "artifactory",
+                        flat: false,
+                        spec:
+                                """{
                    "files": [
                         {
                         "pattern": "src/",
@@ -91,7 +92,8 @@ pipeline {
                         }
                         ]
                     }"""
-            )
+                )
+            }
         }
         stage ('SonarQube') {
             environment {
