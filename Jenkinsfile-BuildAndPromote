@@ -67,7 +67,6 @@ pipeline {
             steps {
                 rtUpload(
                         serverId: "artifactory",
-                        flat: false,
                         spec:
                                 """{
                    "files": [
@@ -80,7 +79,6 @@ pipeline {
                 )
                 rtUpload(
                         serverId: "artifactory",
-                        flat: false,
                         spec:
                                 """{
                    "files": [
