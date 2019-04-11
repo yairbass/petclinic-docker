@@ -6,7 +6,8 @@ items.find({
   ]
 
 })
-.include({"artifact.module.build.number"}).sort({"$desc" : ["artifact.module.build.number"]}).limit(1)
+.include({".build.number"})
+.sort({"$desc" : ["artifact.module.build.number"]}).limit(1)
 
 
 maven-release-local/org/springframework/samples/spring-petclinic/2.1.0.BUILD-SNAPSHOT/spring-petclinic-2.1.0.BUILD-20190404.122840-1.jar

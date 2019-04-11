@@ -46,6 +46,8 @@ pipeline {
                     snapshotRepo: "maven-virtual"
                    
                 )
+
+
             }
         }
 
@@ -63,6 +65,37 @@ pipeline {
                     resolverId: "MAVEN_RESOLVER"
                 )
             }
+        }
+
+        stage ('Upload dbdata'){
+            rtUpload (
+            serverId: "artifactory",
+            flat: false,
+            spec:
+                """{
+                   "files": [
+                        {
+                        "pattern": "dbdata/",
+                        "target": "data-generic-repo/"
+                        }
+                        ]
+                    }"""
+            )
+        }
+        stage ('Upload src data'){
+            rtUpload (
+                    serverId: "artifactory",
+                    flat: false,
+                    spec:
+                            """{
+                   "files": [
+                        {
+                        "pattern": "src/",
+                        "target": "data-generic-repo/"
+                        }
+                        ]
+                    }"""
+            )
         }
         stage ('SonarQube') {
             environment {
