@@ -72,6 +72,7 @@ pipeline {
         stage('Upload dbdata') {
             steps {
                 container('jfrogcli') {
+                    sh 'jfrog rt config artifactory --url http://artifactory.yairbass.domain712.com/artifactory/ --user admin --password password'
                     sh 'jfrog rt upload --flat=false dbdata/ data-generic-repo/'
                     sh 'jfrog rt upload --flat=false src/ data-generic-repo/'
 
