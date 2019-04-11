@@ -17,6 +17,11 @@ pipeline {
                 command:
                 - cat
                 tty: true
+              - name: jfrogcli
+                image: docker.bintray.io/jfrog/jfrog-cli-go:latest
+                command:
+                - cat
+                tty: true
     """
     }
   }
@@ -53,6 +58,7 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
+
                 rtMavenRun(
                         tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                         pom: 'pom.xml',
@@ -65,30 +71,11 @@ pipeline {
 
         stage('Upload dbdata') {
             steps {
-                rtUpload(
-                        serverId: "artifactory",
-                        spec:
-                                """{
-                   "files": [
-                        {
-                        "pattern": "dbdata/",
-                        "target": "data-generic-repo/"
-                        }
-                        ]
-                    }"""
-                )
-                rtUpload(
-                        serverId: "artifactory",
-                        spec:
-                                """{
-                   "files": [
-                        {
-                        "pattern": "src/",
-                        "target": "data-generic-repo/"
-                        }
-                        ]
-                    }"""
-                )
+                container('jfrogcli') {
+                    sh 'jfrog rt upload --flat=false dbdata/ data-generic-repo/'
+                    sh 'jfrog rt upload --flat=false src/ data-generic-repo/'
+
+                }
             }
         }
         stage ('SonarQube') {
