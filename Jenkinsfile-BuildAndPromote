@@ -21,54 +21,55 @@ pipeline {
     }
   }
     stages {
-        stage ('Clone') {
+        stage('Clone') {
             steps {
                 git branch: 'pipeline', url: "https://github.com/yairbass/petclinic-docker.git", credentialsId: 'github'
             }
         }
-        
-        
-      
-        stage ('Artifactory configuration') {
+
+
+
+        stage('Artifactory configuration') {
             steps {
-                rtMavenDeployer (
-                    id: "MAVEN_DEPLOYER",
-                    serverId: "artifactory",
-                    releaseRepo: "maven-virtual",
-                    snapshotRepo: "maven-virtual"
-                    
+                rtMavenDeployer(
+                        id: "MAVEN_DEPLOYER",
+                        serverId: "artifactory",
+                        releaseRepo: "maven-virtual",
+                        snapshotRepo: "maven-virtual"
+
                 )
 
-                rtMavenResolver (
-                    id: "MAVEN_RESOLVER",
-                    serverId: "artifactory",
-                    releaseRepo: "maven-virtual",
-                    snapshotRepo: "maven-virtual"
-                   
+                rtMavenResolver(
+                        id: "MAVEN_RESOLVER",
+                        serverId: "artifactory",
+                        releaseRepo: "maven-virtual",
+                        snapshotRepo: "maven-virtual"
+
                 )
 
 
             }
         }
 
-        stage ('Exec Maven') {
+        stage('Exec Maven') {
             steps {
-                rtMavenRun (
-                    tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'package -Dmaven.test.skip=true ',
-                    deployerId: "MAVEN_DEPLOYER",
-                    resolverId: "MAVEN_RESOLVER"
+                rtMavenRun(
+                        tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
+                        pom: 'pom.xml',
+                        goals: 'package -Dmaven.test.skip=true ',
+                        deployerId: "MAVEN_DEPLOYER",
+                        resolverId: "MAVEN_RESOLVER"
                 )
             }
         }
 
-        stage ('Upload dbdata'){
-            rtUpload (
-            serverId: "artifactory",
-            flat: false,
-            spec:
-                """{
+        stage('Upload dbdata') {
+            steps {
+                rtUpload(
+                        serverId: "artifactory",
+                        flat: false,
+                        spec:
+                                """{
                    "files": [
                         {
                         "pattern": "dbdata/",
@@ -76,10 +77,7 @@ pipeline {
                         }
                         ]
                     }"""
-            )
-        }
-        stage ('Upload src data') {
-            steps {
+                )
                 rtUpload(
                         serverId: "artifactory",
                         flat: false,
