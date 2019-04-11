@@ -72,6 +72,7 @@ pipeline {
         stage('Upload dbdata') {
             steps {
                 container('jfrogcli') {
+                    sh 'env'
                     sh 'jfrog rt config artifactory --url ${ARTIFACTORY_URL}/artifactory/ --user admin --password password'
                     sh 'jfrog rt upload --flat=false dbdata/ data-generic-repo/'
                     sh 'jfrog rt upload --flat=false src/ data-generic-repo/'
@@ -92,8 +93,8 @@ pipeline {
         
         stage("Quality Gate") {
             steps {
-                // Fix for SonarQube issue for Pending Quality gates
-                sh "sleep 10"
+//                // Fix for SonarQube issue for Pending Quality gates
+//                sh "sleep 10"
                 timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
                 }
