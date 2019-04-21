@@ -72,12 +72,13 @@ pipeline {
                 sh 'tar -zcvf dbdata.tgz dbdata'
                 rtSetProps (
                         serverId: "artifactory",
-                        props: 'build-name=${env.JOB_NAME},build-number=${env.JOB_NUMBER}'
+                        props: 'build-name=${env.JOB_NAME},build-number=${env.JOB_NUMBER}',
                         spec:
                                 """{
                          "files": [
                        {
                       "pattern": "*.tgz",
+                      "props": "filter-by-this-prop=yes"
                     }
                        ]
                          }"""
@@ -89,15 +90,16 @@ pipeline {
                          "files": [
                        {
                       "pattern": "*.tgz",
-                      "props": "filter-by-this-prop=yes"
-
-                    }]}"""
+                      "target": "data-generic-repo/"
+                    }
+                       ]
+                         }"""
                 )
 
                     }
                 }
             }
-        }
+
         stage ('SonarQube') {
             environment {
                 scannerHome = tool 'sonar-server-7.6'
@@ -156,5 +158,5 @@ pipeline {
                 )
        }
      }
-    }
+
 }
