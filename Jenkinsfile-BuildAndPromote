@@ -17,11 +17,6 @@ pipeline {
                 command:
                 - cat
                 tty: true
-              - name: cli-tools
-                image: docker.bintray.io/jfrog/jfrog-cli-go:latest
-                command:
-                - cat
-                tty: true
     """
     }
   }
@@ -59,6 +54,7 @@ pipeline {
                 MAVEN_HOME = '/usr/share/maven'
             }
             steps {
+
                 rtMavenRun (
                     tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
@@ -66,12 +62,6 @@ pipeline {
                     deployerId: "MAVEN_DEPLOYER",
                     resolverId: "MAVEN_RESOLVER"
                 )
-                sh 'zip src src.zip'
-                sh 'zip dbdata dbdata.zip'
-                container('cli-tools'){
-                    sh "jfrog rt u '*.zip' data-generic-repo --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
-                }
-
             }
         }
         stage ('SonarQube') {

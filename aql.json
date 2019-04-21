@@ -1,9 +1,24 @@
 items.find({
-  "name":{"$match":"spring-petclinic*.jar"},
-  "$and":[
-    {"@build.name":{"$eq":"Petclinic-BuildAndUpload"}},
-    {"repo":{"$eq":"maven-release-local"}}
+  "name": {
+    "$match": "spring-petclinic*.jar"
+  },
+  "$and": [
+    {
+      "@build.name": {
+        "$eq": "Petclinic-BuildAndUpload"
+      }
+    },
+    {
+      "repo": {
+        "$eq": "maven-release-local"
+      }
+    }
   ]
-})
-.include("*").sort({"$desc":["created"]})
+}).include("created").sort({
+  "$desc": [
+    "created"
+  ]
+}).limit(1)
+
+
 
