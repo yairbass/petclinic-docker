@@ -1,6 +1,5 @@
 pipeline {
-    server = Artifactory.server "artifactory"
-    rtFullUrl = server.url
+
   agent{
     kubernetes {
       cloud 'k8s'
@@ -28,8 +27,8 @@ pipeline {
     }
   }
     environment{
-        server = Artifactory.server "artifactory"
-        rtFullUrl = server.url
+        server = ${Artifactory.server} "artifactory"
+        rtFullUrl = ${server.url}
     }
     stages {
         stage ('Clone') {
