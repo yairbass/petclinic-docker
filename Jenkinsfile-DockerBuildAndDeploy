@@ -15,21 +15,21 @@ podTemplate(label: 'jenkins-pipeline' , cloud: 'k8s' , containers: [
         }
 
         stage('Clone sources') {
-            git url: 'https://github.com/yairbass/petclinic-docker.git', credentialsId: 'github' , branch: 'pipeline'
+            git url: 'https://github.com/yairbass/petclinic-docker.git', credentialsId: 'github', branch: 'pipeline'
         }
 
-       stage('Download PetClinic jar Artifact') {
+        stage('Download PetClinic jar Artifact') {
 
-               steps {
-                   rtDownload (
-                           buildName: 'Petclinic-BuildAndUpload',
-                           serverId: artifactory,
-                           specPath: './aql.json'
-                   )
-               }
-           }
+            steps {
+                rtDownload(
+                        buildName: 'Petclinic-BuildAndUpload',
+                        serverId: artifactory,
+                        specPath: './aql.json'
+                )
+            }
+        }
 
-
+    }
 
 
 
