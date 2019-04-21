@@ -17,11 +17,11 @@ pipeline {
                 command:
                 - cat
                 tty: true
-              - name: frog-cli
+              - name: jfrog-cli
                 image: docker.bintray.io/jfrog/jfrog-cli-go:latest
                 command: 
                 - cat
-                tty: enabled
+                tty: true
     """
     }
   }
