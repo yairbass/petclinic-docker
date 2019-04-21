@@ -1,10 +1,10 @@
 pipeline {
-  agent{
-    kubernetes {
-      cloud 'k8s'
-      label 'jenkins-maven-pipeline'
-      defaultContainer 'jnlp' 
-        yaml """
+    agent {
+        kubernetes {
+            cloud 'k8s'
+            label 'jenkins-maven-pipeline'
+            defaultContainer 'jnlp'
+            yaml """
             apiVersion: v1
             kind: Pod
             metadata:
@@ -56,11 +56,10 @@ pipeline {
         }
 
         stage ('Exec Maven') {
-            environment{
+            environmen t{
                 MAVEN_HOME = '/usr/share/maven'
             }
             steps {
-
                 rtMavenRun (
                     tool: 'MAVEN_TOOL', // Tool name from Jenkins configuration
                     pom: 'pom.xml',
@@ -98,7 +97,7 @@ pipeline {
 
                     }
                 }
-            }
+
 
         stage ('SonarQube') {
             environment {
@@ -128,7 +127,7 @@ pipeline {
             }
         }
         
-            stage ('Scan Build with xray') {
+        stage ('Scan Build with xray') {
                 steps {
                     script {
                         server = Artifactory.server "artifactory"
@@ -142,7 +141,7 @@ pipeline {
                     }
                 }
               }
-            stage ('Promote to release'){
+        stage ('Promote to release'){
                 steps {
                     rtPromote (
                     buildName: env.JOB_NAME,
@@ -160,3 +159,4 @@ pipeline {
      }
 
 }
+    }
