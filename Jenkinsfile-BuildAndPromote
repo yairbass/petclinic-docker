@@ -70,7 +70,9 @@ pipeline {
                 sh 'tar -zcvf src.tgz src'
                 sh 'tar -zcvf dbdata.tgz dbdata'
                 container('jfrog-cli'){
-                    sh "jfrog rt u '*.tgz' data-generic-repo --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactorypass', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                        sh "jfrog rt u '*.tgz' data-generic-repo --build-name=${env.JOB_NAME} --build-number=${env.BUILD_NUMBER} -server-id beta --props='release-bundle=true'"
+                    }
                 }
             }
         }
