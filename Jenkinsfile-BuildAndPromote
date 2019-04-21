@@ -26,10 +26,10 @@ pipeline {
     """
     }
   }
-    environment{
-        server = ${Artifactory.server} "artifactory"
-        rtFullUrl = ${server.url}
-    }
+//    environment{
+//        server = Artifactory.server "artifactory"
+//        rtFullUrl = server.url
+//    }
     stages {
         stage ('Clone') {
             steps {
