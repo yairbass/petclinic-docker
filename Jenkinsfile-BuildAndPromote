@@ -56,7 +56,8 @@ pipeline {
         }
 
         stage ('Exec Maven') {
-            environmen t{
+            environment {
+
                 MAVEN_HOME = '/usr/share/maven'
             }
             steps {
