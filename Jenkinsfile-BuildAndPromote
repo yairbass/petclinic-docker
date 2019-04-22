@@ -17,11 +17,7 @@ pipeline {
                 command:
                 - cat
                 tty: true
-              - name: jfrog-cli
-                image: docker.bintray.io/jfrog/jfrog-cli-go:latest
-                command: 
-                - cat
-                tty: true
+             
     """
     }
   }
@@ -153,7 +149,7 @@ pipeline {
                     status: 'Released',
                     sourceRepo: 'maven-dev-local',
                     includeDependencies: false,
-                    failFast: true,
+                    failFast: false,
                     copy: true
                 )
        }
