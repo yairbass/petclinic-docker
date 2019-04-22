@@ -85,8 +85,20 @@ pipeline {
                                 """{
                          "files": [
                        {
-                      "pattern": "*.tgz",
-                      "target": "data-generic-repo/"
+                      "pattern": "dbdata.tgz",
+                      "target": "data-generic-repo/dbdata/"
+                    }
+                       ]
+                         }"""
+                )
+                rtUpload (
+                        serverId: "artifactory",
+                        spec:
+                                """{
+                         "files": [
+                       {
+                      "pattern": "src.tgz",
+                      "target": "data-generic-repo/src/"
                     }
                        ]
                          }"""
