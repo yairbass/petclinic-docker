@@ -93,7 +93,7 @@ pipeline {
         stage("Quality Gate") {
             steps {
 //                // Fix for SonarQube issue for Pending Quality gates
-                sh "sleep 10"
+                 sh "sleep 10"
                 timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
                 }
